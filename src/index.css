@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes breathe-in {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0.7;
+  }
+}
+
+@keyframes breathe-out {
+  0% {
+    transform: scale(1.5);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+}
+
+.animate-breathe-in {
+  animation: breathe-in 3.5s ease-in-out infinite;
+}
+
+.animate-breathe-out {
+  animation: breathe-out 3.5s ease-in-out infinite;
+}
