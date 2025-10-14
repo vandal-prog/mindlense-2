@@ -45,31 +45,31 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-2 sm:p-4">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
+        <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 rounded-t-xl sm:rounded-t-2xl">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-indigo-100 rounded-xl">
-                <Brain className="h-8 w-8 text-indigo-600" />
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="p-1.5 sm:p-2 bg-indigo-100 rounded-lg sm:rounded-xl">
+                <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">About MindLense</h2>
-                <p className="text-gray-600">Your Personal Mental Wellness Companion</p>
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">About MindLense</h2>
+                <p className="text-sm sm:text-base text-gray-600">Your Personal Mental Wellness Companion</p>
               </div>
             </div>
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <X className="h-6 w-6 text-gray-500" />
+              <X className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500" />
             </button>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-8">
+        <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
           {/* Introduction */}
           <div className="text-center">
             <h3 className="text-xl font-semibold text-gray-900 mb-4">
@@ -88,18 +88,18 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
             <h3 className="text-xl font-semibold text-gray-900 mb-6 text-center">
               What Makes MindLense Special
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {features.map((feature, index) => (
-                <div key={index} className="bg-gray-50 rounded-xl p-6 hover:bg-gray-100 transition-colors">
-                  <div className="flex items-start space-x-4">
+                <div key={index} className="bg-gray-50 rounded-xl p-4 sm:p-6 hover:bg-gray-100 transition-colors">
+                  <div className="flex items-start space-x-3 sm:space-x-4">
                     <div className="flex-shrink-0 mt-1">
                       {feature.icon}
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">
+                      <h4 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base">
                         {feature.title}
                       </h4>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs sm:text-sm text-gray-600">
                         {feature.description}
                       </p>
                     </div>

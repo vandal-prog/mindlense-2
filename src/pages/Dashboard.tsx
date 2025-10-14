@@ -9,7 +9,6 @@ import {
 import { useAuthStore } from '../store/authStore';
 import { supabase } from '../lib/supabase';
 import AboutModal from '../components/AboutModal';
-import TestModal from '../components/TestModal';
 
 type Activity = {
   id: string;
@@ -98,7 +97,6 @@ export default function Dashboard() {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const [welcomeStep, setWelcomeStep] = useState(1);
   const [showAboutModal, setShowAboutModal] = useState(false);
-  const [showTestModal, setShowTestModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -252,41 +250,57 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-gray-100">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Brain className="h-8 w-8 text-indigo-600" />
-            <h1 className="text-2xl font-bold text-gray-900">MindLense</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button 
-              onClick={() => {
-                console.log('About button clicked');
-                setShowAboutModal(true);
-              }}
-              className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 transition-colors"
-              title="About MindLense"
-            >
-              <Info className="h-4 w-4 mr-2" />
-              About
-            </button>
-            <button 
-              onClick={() => setShowTestModal(true)}
-              className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 transition-colors"
-              title="Test Modal"
-            >
-              Test
-            </button>
-            <button className="text-gray-600 hover:text-gray-900">
-              <Bell className="h-5 w-5" />
-            </button>
-            <button
-              onClick={signOut}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign out
-            </button>
+      <header className="bg-white shadow-sm sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600" />
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">MindLense</h1>
+            </div>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden sm:flex items-center space-x-3 lg:space-x-4">
+              <button 
+                onClick={() => setShowAboutModal(true)}
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 transition-colors"
+                title="About MindLense"
+              >
+                <Info className="h-4 w-4 mr-2" />
+                About
+              </button>
+              <button className="text-gray-600 hover:text-gray-900 p-2">
+                <Bell className="h-5 w-5" />
+              </button>
+              <button
+                onClick={signOut}
+                className="inline-flex items-center px-3 lg:px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                <span className="hidden lg:inline">Sign out</span>
+              </button>
+            </div>
+
+            {/* Mobile Navigation */}
+            <div className="flex sm:hidden items-center space-x-2">
+              <button 
+                onClick={() => setShowAboutModal(true)}
+                className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                title="About MindLense"
+              >
+                <Info className="h-5 w-5" />
+              </button>
+              <button className="p-2 text-gray-600 hover:text-gray-900">
+                <Bell className="h-5 w-5" />
+              </button>
+              <button
+                onClick={signOut}
+                className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                title="Sign out"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -381,20 +395,21 @@ export default function Dashboard() {
         </div>
       )}
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-2xl shadow-sm p-6 mb-8">
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 sm:mb-6">
+            <div className="mb-4 sm:mb-0">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
                 Welcome back{user?.email ? `, ${user.email.split('@')[0]}` : ''}
               </h2>
               <div className="flex items-center mt-1">
-                <div className="flex items-center text-green-600 font-medium">
+                <div className="flex items-center text-green-600 font-medium text-sm sm:text-base">
                   <CheckCircle className="h-4 w-4 mr-1" />
                   {loading ? (
                     <span className="animate-pulse">Loading routines...</span>
                   ) : (
-                    `${stats.completedRoutines}/7 weekly routines completed`
+                    <span className="hidden sm:inline">{stats.completedRoutines}/7 weekly routines completed</span>
+                    <span className="sm:hidden">{stats.completedRoutines}/7 routines</span>
                   )}
                 </div>
               </div>
@@ -402,49 +417,50 @@ export default function Dashboard() {
             {stats.riskLevel === 'high' && (
               <Link
                 to="/crisis"
-                className="px-4 py-2 bg-red-50 text-red-700 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
+                className="px-3 sm:px-4 py-2 bg-red-50 text-red-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-red-100 transition-colors"
               >
-                Support Available 24/7
+                <span className="hidden sm:inline">Support Available 24/7</span>
+                <span className="sm:hidden">Crisis Support</span>
               </Link>
             )}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {quickActions.map((action, index) => (
               <Link
                 key={index}
                 to={action.link}
-                className="flex items-center justify-center space-x-2 p-3 rounded-xl border border-gray-200 hover:border-indigo-200 hover:bg-indigo-50 transition-all group"
+                className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-2 p-3 rounded-xl border border-gray-200 hover:border-indigo-200 hover:bg-indigo-50 transition-all group"
               >
                 <span className={`${action.color} group-hover:scale-110 transition-transform`}>
                   {action.icon}
                 </span>
-                <span className="text-sm font-medium text-gray-700">{action.label}</span>
+                <span className="text-xs sm:text-sm font-medium text-gray-700 text-center sm:text-left">{action.label}</span>
               </Link>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl shadow-sm p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium">Total Sessions</h3>
-              <Users className="h-6 w-6 opacity-75" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 text-white">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h3 className="text-base sm:text-lg font-medium">Total Sessions</h3>
+              <Users className="h-5 w-5 sm:h-6 sm:w-6 opacity-75" />
             </div>
-            <p className="text-3xl font-bold">{loading ? '...' : stats.totalSessions}</p>
-            <p className="text-purple-100 text-sm mt-2">
+            <p className="text-2xl sm:text-3xl font-bold">{loading ? '...' : stats.totalSessions}</p>
+            <p className="text-purple-100 text-xs sm:text-sm mt-2">
               {stats.lastSession 
-                ? `Last session: ${new Date(stats.lastSession).toLocaleDateString()}`
+                ? `Last: ${new Date(stats.lastSession).toLocaleDateString()}`
                 : 'Start your journey today'}
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-sm p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium">Average Mood</h3>
-              <TrendingUp className="h-6 w-6 opacity-75" />
+          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 text-white">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h3 className="text-base sm:text-lg font-medium">Average Mood</h3>
+              <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 opacity-75" />
             </div>
-            <p className="text-3xl font-bold">{loading ? '...' : stats.averageMood}/10</p>
-            <div className="flex items-center text-green-100 text-sm mt-2">
+            <p className="text-2xl sm:text-3xl font-bold">{loading ? '...' : stats.averageMood}/10</p>
+            <div className="flex items-center text-green-100 text-xs sm:text-sm mt-2">
               <div className={`w-2 h-2 rounded-full mr-2 ${
                 stats.averageMood >= 7 ? 'bg-green-300' :
                 stats.averageMood >= 4 ? 'bg-yellow-300' :
@@ -456,15 +472,15 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl shadow-sm p-6 text-white">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium">Current Streak</h3>
-              <Calendar className="h-6 w-6 opacity-75" />
+          <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6 text-white sm:col-span-2 lg:col-span-1">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h3 className="text-base sm:text-lg font-medium">Current Streak</h3>
+              <Calendar className="h-5 w-5 sm:h-6 sm:w-6 opacity-75" />
             </div>
-            <p className="text-3xl font-bold">
+            <p className="text-2xl sm:text-3xl font-bold">
               {loading ? '...' : `${stats.streak} ${stats.streak === 1 ? 'day' : 'days'}`}
             </p>
-            <p className="text-orange-100 text-sm mt-2">
+            <p className="text-orange-100 text-xs sm:text-sm mt-2">
               {stats.streak > 0 
                 ? 'Keep the momentum going!'
                 : 'Start your streak today'}
@@ -472,8 +488,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Recent Activity</h3>
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm p-4 sm:p-6">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4 sm:mb-6">Recent Activity</h3>
           {loading ? (
             <div className="space-y-4">
               {[...Array(3)].map((_, i) => (
@@ -556,14 +572,17 @@ export default function Dashboard() {
         </div>
       </main>
 
-      <footer className="bg-white border-t mt-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="flex items-center space-x-2 text-gray-500">
-              <Brain className="h-5 w-5" />
-              <span className="text-sm">© 2025 MindLense. All rights reserved.</span>
-              <span className="text-sm text-gray-400">•</span>
-              <span className="text-sm">
+      <footer className="bg-white border-t mt-6 sm:mt-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col space-y-4">
+            {/* Main attribution */}
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-2 text-gray-500">
+              <div className="flex items-center space-x-2">
+                <Brain className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="text-xs sm:text-sm">© 2025 MindLense. All rights reserved.</span>
+              </div>
+              <span className="hidden sm:inline text-sm text-gray-400">•</span>
+              <span className="text-xs sm:text-sm">
                 Created by{' '}
                 <a 
                   href="https://www.onchify.com/" 
@@ -575,26 +594,30 @@ export default function Dashboard() {
                 </a>
               </span>
             </div>
-            <div className="flex items-center space-x-6">
+            
+            {/* Links */}
+            <div className="flex flex-wrap items-center justify-center space-x-4 sm:space-x-6">
               <Link
                 to="/privacy"
-                className="text-sm text-gray-500 hover:text-gray-700 flex items-center"
+                className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 flex items-center"
               >
-                <Lock className="h-4 w-4 mr-1" />
-                Privacy Policy
+                <Lock className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                <span className="hidden sm:inline">Privacy Policy</span>
+                <span className="sm:hidden">Privacy</span>
               </Link>
               <Link
                 to="/terms"
-                className="text-sm text-gray-500 hover:text-gray-700 flex items-center"
+                className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 flex items-center"
               >
-                <FileText className="h-4 w-4 mr-1" />
-                Terms & Conditions
+                <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                <span className="hidden sm:inline">Terms & Conditions</span>
+                <span className="sm:hidden">Terms</span>
               </Link>
               <a
                 href="mailto:support@mindlense.com"
-                className="text-sm text-gray-500 hover:text-gray-700 flex items-center"
+                className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 flex items-center"
               >
-                <HelpCircle className="h-4 w-4 mr-1" />
+                <HelpCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
                 Support
               </a>
             </div>
@@ -606,12 +629,6 @@ export default function Dashboard() {
       <AboutModal 
         isOpen={showAboutModal} 
         onClose={() => setShowAboutModal(false)} 
-      />
-      
-      {/* Test Modal */}
-      <TestModal 
-        isOpen={showTestModal} 
-        onClose={() => setShowTestModal(false)} 
       />
     </div>
   );
