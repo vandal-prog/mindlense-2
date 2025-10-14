@@ -1,7 +1,6 @@
 /*
   # Complete MindLense Database Setup
-  This script sets up the complete database schema for MindLense
-  Run this in your new Supabase project's SQL editor
+  This migration sets up the complete database schema for MindLense
 */
 
 -- Enable necessary extensions
@@ -37,7 +36,6 @@ CREATE POLICY "Users can update own data"
   TO authenticated
   USING (auth.uid() = id);
 
--- Allow users to insert their own data (for signup)
 CREATE POLICY "Users can insert own data"
   ON users
   FOR INSERT
@@ -136,7 +134,12 @@ BEGIN
     false,
     false,
     false
-  );
+  )
+  ON CONFLICT (id) DO UPDATE SET
+    email = EXCLUDED.email,
+    name = COALESCE(EXCLUDED.name, users.name),
+    updated_at = NOW();
+  
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

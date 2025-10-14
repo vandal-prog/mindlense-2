@@ -16,7 +16,7 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
           supabase: ['@supabase/supabase-js'],
-          openai: ['openai'],
+          gemini: ['@google/generative-ai'],
           zustand: ['zustand'],
         },
       },
