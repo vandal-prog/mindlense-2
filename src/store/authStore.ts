@@ -33,31 +33,25 @@ export const useAuthStore = create<AuthState>((set) => ({
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Create the user record in our database
-    const { error: insertError } = await supabase
-      .from('users')
-      .insert({
-        id: user.id,
-        email: user.email,
-        name,
-        created_at: new Date().toISOString(),
-        onboarding_completed: false
-      });
-
-    if (insertError) {
-      // If insert fails, try upsert as a fallback
-      const { error: upsertError } = await supabase
+    // This will be handled by the trigger function, but we'll also try manually
+    try {
+      const { error: insertError } = await supabase
         .from('users')
-        .upsert({
+        .insert({
           id: user.id,
           email: user.email,
           name,
           created_at: new Date().toISOString(),
-          onboarding_completed: false
-        }, {
-          onConflict: 'id'
+          onboarding_completed: false,
+          has_seen_welcome: false,
+          has_seen_privacy: false
         });
-      
-      if (upsertError) throw upsertError;
+
+      if (insertError) {
+        console.log('User might already exist, continuing...', insertError.message);
+      }
+    } catch (err) {
+      console.log('User creation handled by trigger or already exists');
     }
   },
   signOut: async () => {

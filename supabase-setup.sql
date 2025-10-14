@@ -37,6 +37,7 @@ CREATE POLICY "Users can update own data"
   TO authenticated
   USING (auth.uid() = id);
 
+-- Allow users to insert their own data (for signup)
 CREATE POLICY "Users can insert own data"
   ON users
   FOR INSERT
@@ -139,6 +140,10 @@ BEGIN
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Grant necessary permissions for the function
+GRANT USAGE ON SCHEMA public TO service_role;
+GRANT ALL ON public.users TO service_role;
 
 -- Create trigger to automatically create user record
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;

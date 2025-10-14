@@ -9,6 +9,7 @@ import {
 import { useAuthStore } from '../store/authStore';
 import { supabase } from '../lib/supabase';
 import AboutModal from '../components/AboutModal';
+import TestModal from '../components/TestModal';
 
 type Activity = {
   id: string;
@@ -97,6 +98,7 @@ export default function Dashboard() {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const [welcomeStep, setWelcomeStep] = useState(1);
   const [showAboutModal, setShowAboutModal] = useState(false);
+  const [showTestModal, setShowTestModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -258,11 +260,22 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center space-x-4">
             <button 
-              onClick={() => setShowAboutModal(true)}
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              onClick={() => {
+                console.log('About button clicked');
+                setShowAboutModal(true);
+              }}
+              className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 transition-colors"
               title="About MindLense"
             >
-              <Info className="h-5 w-5" />
+              <Info className="h-4 w-4 mr-2" />
+              About
+            </button>
+            <button 
+              onClick={() => setShowTestModal(true)}
+              className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 transition-colors"
+              title="Test Modal"
+            >
+              Test
             </button>
             <button className="text-gray-600 hover:text-gray-900">
               <Bell className="h-5 w-5" />
@@ -543,7 +556,7 @@ export default function Dashboard() {
         </div>
       </main>
 
-      <footer className="bg-white border-t">
+      <footer className="bg-white border-t mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2 text-gray-500">
@@ -556,7 +569,7 @@ export default function Dashboard() {
                   href="https://www.onchify.com/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-indigo-600 hover:text-indigo-800 transition-colors"
+                  className="text-indigo-600 hover:text-indigo-800 transition-colors font-medium"
                 >
                   Onchify
                 </a>
@@ -593,6 +606,12 @@ export default function Dashboard() {
       <AboutModal 
         isOpen={showAboutModal} 
         onClose={() => setShowAboutModal(false)} 
+      />
+      
+      {/* Test Modal */}
+      <TestModal 
+        isOpen={showTestModal} 
+        onClose={() => setShowTestModal(false)} 
       />
     </div>
   );
