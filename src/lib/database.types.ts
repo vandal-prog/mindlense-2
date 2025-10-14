@@ -16,6 +16,11 @@ export interface Database {
           name: string | null
           created_at: string
           risk_level: string
+          onboarding_completed: boolean
+          initial_assessment: Json | null
+          has_seen_welcome: boolean
+          has_seen_privacy: boolean
+          initial_mood: Json | null
         }
         Insert: {
           id?: string
@@ -23,6 +28,11 @@ export interface Database {
           name?: string | null
           created_at?: string
           risk_level?: string
+          onboarding_completed?: boolean
+          initial_assessment?: Json | null
+          has_seen_welcome?: boolean
+          has_seen_privacy?: boolean
+          initial_mood?: Json | null
         }
         Update: {
           id?: string
@@ -30,6 +40,11 @@ export interface Database {
           name?: string | null
           created_at?: string
           risk_level?: string
+          onboarding_completed?: boolean
+          initial_assessment?: Json | null
+          has_seen_welcome?: boolean
+          has_seen_privacy?: boolean
+          initial_mood?: Json | null
         }
       }
       sessions: {
@@ -82,6 +97,7 @@ export interface Database {
           score: number
           notes: string | null
           created_at: string
+          assessment_data: Json | null
         }
         Insert: {
           id?: string
@@ -89,6 +105,7 @@ export interface Database {
           score: number
           notes?: string | null
           created_at?: string
+          assessment_data?: Json | null
         }
         Update: {
           id?: string
@@ -96,6 +113,7 @@ export interface Database {
           score?: number
           notes?: string | null
           created_at?: string
+          assessment_data?: Json | null
         }
       }
     }

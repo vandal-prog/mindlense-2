@@ -4,10 +4,11 @@ import {
   MessageSquare, LineChart, LogOut, Brain, Calendar, Clock, 
   TrendingUp, Users, Bell, Sparkles, Target, Shield, BookOpen,
   Sun, Wind, List, Star, Heart, Globe, Phone, X, CheckCircle,
-  SmilePlus, HelpCircle, Lock, FileText
+  SmilePlus, HelpCircle, Lock, FileText, Info
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { supabase } from '../lib/supabase';
+import AboutModal from '../components/AboutModal';
 
 type Activity = {
   id: string;
@@ -95,6 +96,7 @@ export default function Dashboard() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const [welcomeStep, setWelcomeStep] = useState(1);
+  const [showAboutModal, setShowAboutModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -255,6 +257,13 @@ export default function Dashboard() {
             <h1 className="text-2xl font-bold text-gray-900">MindLense</h1>
           </div>
           <div className="flex items-center space-x-4">
+            <button 
+              onClick={() => setShowAboutModal(true)}
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+              title="About MindLense"
+            >
+              <Info className="h-5 w-5" />
+            </button>
             <button className="text-gray-600 hover:text-gray-900">
               <Bell className="h-5 w-5" />
             </button>
@@ -540,6 +549,18 @@ export default function Dashboard() {
             <div className="flex items-center space-x-2 text-gray-500">
               <Brain className="h-5 w-5" />
               <span className="text-sm">© 2025 MindLense. All rights reserved.</span>
+              <span className="text-sm text-gray-400">•</span>
+              <span className="text-sm">
+                Created by{' '}
+                <a 
+                  href="https://www.onchify.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-indigo-600 hover:text-indigo-800 transition-colors"
+                >
+                  Onchify
+                </a>
+              </span>
             </div>
             <div className="flex items-center space-x-6">
               <Link
@@ -567,6 +588,12 @@ export default function Dashboard() {
           </div>
         </div>
       </footer>
+
+      {/* About Modal */}
+      <AboutModal 
+        isOpen={showAboutModal} 
+        onClose={() => setShowAboutModal(false)} 
+      />
     </div>
   );
 }

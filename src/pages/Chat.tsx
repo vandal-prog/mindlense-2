@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowLeft, Send, Plus, Brain, Sparkles, Target, AlertTriangle, 
-  Copy, Check, Globe, Phone, MessageSquare, Heart, Clock, Archive 
+  Copy, Check, Globe, Phone, MessageSquare, Heart, Clock, Archive, Info
 } from 'lucide-react';
 import { useChatStore } from '../store/chatStore';
 import { useAuthStore } from '../store/authStore';
+import AboutModal from '../components/AboutModal';
 
 // Crisis resources by country
 const CRISIS_RESOURCES = {
@@ -231,6 +232,7 @@ export default function Chat() {
   const [copied, setCopied] = useState(false);
   const [showInsights, setShowInsights] = useState(false);
   const [showConversations, setShowConversations] = useState(false);
+  const [showAboutModal, setShowAboutModal] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastViewedRef = useRef<HTMLDivElement>(null);
@@ -346,6 +348,13 @@ export default function Chat() {
             Back to Dashboard
           </Link>
           <div className="flex items-center space-x-4">
+            <button 
+              onClick={() => setShowAboutModal(true)}
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+              title="About MindLense"
+            >
+              <Info className="h-5 w-5" />
+            </button>
             <button
               onClick={() => setShowConversations(!showConversations)}
               className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200"
@@ -492,6 +501,34 @@ export default function Chat() {
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t mt-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
+            <Brain className="h-4 w-4" />
+            <span>© 2025 MindLense. All rights reserved.</span>
+            <span className="text-gray-400">•</span>
+            <span>
+              Created by{' '}
+              <a 
+                href="https://www.onchify.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:text-indigo-800 transition-colors"
+              >
+                Onchify
+              </a>
+            </span>
+          </div>
+        </div>
+      </footer>
+
+      {/* About Modal */}
+      <AboutModal 
+        isOpen={showAboutModal} 
+        onClose={() => setShowAboutModal(false)} 
+      />
     </div>
   );
 }
