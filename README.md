@@ -252,6 +252,5 @@ If you're in crisis, please reach out to professional help:
 
 **Made with ❤️ for mental wellness**
 
-[Website](https://mindlense.com) • [Documentation](https://docs.mindlense.com) • [Support](mailto:support@mindlense.com)
 
 </div>
