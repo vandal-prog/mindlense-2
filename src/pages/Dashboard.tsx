@@ -408,8 +408,10 @@ export default function Dashboard() {
                   {loading ? (
                     <span className="animate-pulse">Loading routines...</span>
                   ) : (
-                    <span className="hidden sm:inline">{stats.completedRoutines}/7 weekly routines completed</span>
-                    <span className="sm:hidden">{stats.completedRoutines}/7 routines</span>
+                    <>
+                      <span className="hidden sm:inline">{stats.completedRoutines}/7 weekly routines completed</span>
+                      <span className="sm:hidden">{stats.completedRoutines}/7 routines</span>
+                    </>
                   )}
                 </div>
               </div>
