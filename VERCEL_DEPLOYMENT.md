@@ -56,7 +56,7 @@ Check for errors locally before deploying
 |----------|-------------|---------|
 | `VITE_SUPABASE_URL` | Your Supabase project URL | `https://abc123.supabase.co` |
 | `VITE_SUPABASE_ANON_KEY` | Your Supabase anonymous key | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
-| `VITE_OPENAI_API_KEY` | Your OpenAI API key | `sk-...` |
+| `VITE_GEMINI_API_KEY` | Your Google Gemini API key | `AIza...` |
 
 ## Testing Locally
 
@@ -66,7 +66,7 @@ Before deploying, test locally:
 ```env
 VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-VITE_OPENAI_API_KEY=your_openai_api_key
+VITE_GEMINI_API_KEY=your_gemini_api_key
 ```
 
 2. Run the development server:

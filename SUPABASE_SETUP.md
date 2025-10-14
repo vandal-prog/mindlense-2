@@ -48,8 +48,8 @@ This guide will help you set up MindLense with a new Supabase project.
 VITE_SUPABASE_URL=https://your-project-id.supabase.co
 VITE_SUPABASE_ANON_KEY=your_anon_key_here
 
-# OpenAI Configuration
-VITE_OPENAI_API_KEY=your_openai_api_key_here
+# Google Gemini AI Configuration
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
 **Important**: Replace the placeholder values with your actual credentials.
