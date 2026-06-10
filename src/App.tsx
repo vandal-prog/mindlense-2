@@ -14,11 +14,11 @@ const Privacy = React.lazy(() => import('./pages/Privacy'));
 const Terms = React.lazy(() => import('./pages/Terms'));
 
 function App() {
-  const { initialize, user, loading } = useAuthStore();
+  const { user, loading } = useAuthStore();
 
   useEffect(() => {
-    initialize();
-  }, [initialize]);
+    void useAuthStore.getState().initialize();
+  }, []);
 
   if (loading) {
     return (

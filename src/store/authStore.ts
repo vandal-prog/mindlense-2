@@ -6,9 +6,48 @@ interface AuthState {
   user: User | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, name: string) => Promise<void>;
+  signUp: (email: string, password: string, name: string) => Promise<'confirmed' | 'confirmation_sent'>;
   signOut: () => Promise<void>;
   initialize: () => Promise<void>;
+}
+
+let authListenerRegistered = false;
+
+async function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms)
+    ),
+  ]);
+}
+
+async function ensureUserProfile(user: User) {
+  try {
+    const { data: existingUser } = await supabase
+      .from('users')
+      .select('id')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (!existingUser) {
+      const { error } = await supabase.from('users').upsert(
+        {
+          id: user.id,
+          email: user.email!,
+          name: user.user_metadata?.name ?? user.email,
+          onboarding_completed: false,
+        },
+        { onConflict: 'id' }
+      );
+
+      if (error) {
+        console.error('Error creating user record:', error);
+      }
+    }
+  } catch (error) {
+    console.error('Error ensuring user profile:', error);
+  }
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -19,40 +58,34 @@ export const useAuthStore = create<AuthState>((set) => ({
       email,
       password,
     });
-    if (error) throw error;
+    if (error) {
+      if (error.message.toLowerCase().includes('email not confirmed')) {
+        throw new Error('Please confirm your email first. Check your inbox for the confirmation link.');
+      }
+      throw error;
+    }
   },
   signUp: async (email, password, name) => {
-    const { data: { user }, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: { name },
+        emailRedirectTo: `${window.location.origin}/auth`,
+      },
     });
-    if (error) throw error;
-    if (!user) throw new Error('Signup failed');
-
-    // Wait for the auth session to be established
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Create the user record in our database
-    // This will be handled by the trigger function, but we'll also try manually
-    try {
-      const { error: insertError } = await supabase
-        .from('users')
-        .insert({
-          id: user.id,
-          email: user.email,
-          name,
-          created_at: new Date().toISOString(),
-          onboarding_completed: false,
-          has_seen_welcome: false,
-          has_seen_privacy: false
-        });
-
-      if (insertError) {
-        console.log('User might already exist, continuing...', insertError.message);
+    if (error) {
+      if (error.message.includes('already registered') || error.message.includes('duplicate')) {
+        throw new Error('This email is already registered. Try signing in instead.');
       }
-    } catch (err) {
-      console.log('User creation handled by trigger or already exists');
+      throw error;
     }
+
+    if (data.session) {
+      return 'confirmed';
+    }
+
+    return 'confirmation_sent';
   },
   signOut: async () => {
     const { error } = await supabase.auth.signOut();
@@ -60,39 +93,50 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ user: null });
   },
   initialize: async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (user) {
-      // Check if user exists in our database
-      const { data: existingUser } = await supabase
-        .from('users')
-        .select('id, onboarding_completed')
-        .eq('id', user.id)
-        .single();
-
-      // If user doesn't exist in our database, create it
-      if (!existingUser) {
-        const { error: upsertError } = await supabase
-          .from('users')
-          .upsert({
-            id: user.id,
-            email: user.email,
-            created_at: new Date().toISOString(),
-            onboarding_completed: false
-          }, {
-            onConflict: 'id'
-          });
-        
-        if (upsertError) {
-          console.error('Error creating user record:', upsertError);
-        }
+    try {
+      if (!authListenerRegistered) {
+        authListenerRegistered = true;
+        supabase.auth.onAuthStateChange((_event, session) => {
+          const user = session?.user ?? null;
+          set({ user });
+          if (user) {
+            void ensureUserProfile(user);
+          }
+        });
       }
+
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      if (code) {
+        try {
+          await withTimeout(
+            supabase.auth.exchangeCodeForSession(code),
+            8000,
+            'Email confirmation'
+          );
+        } catch (error) {
+          console.error('Email confirmation error:', error);
+        }
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      const { data: { session } } = await withTimeout(
+        supabase.auth.getSession(),
+        8000,
+        'Session check'
+      );
+
+      const user = session?.user ?? null;
+      set({ user });
+
+      if (user) {
+        void ensureUserProfile(user);
+      }
+    } catch (error) {
+      console.error('Auth initialization failed:', error);
+      set({ user: null });
+    } finally {
+      set({ loading: false });
     }
-
-    set({ user, loading: false });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      set({ user: session?.user ?? null });
-    });
   },
 }));

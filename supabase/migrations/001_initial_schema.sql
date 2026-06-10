@@ -125,11 +125,15 @@ CREATE INDEX IF NOT EXISTS messages_session_id_idx
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
+  -- Remove stale profile rows (e.g. orphaned after auth user was deleted)
+  DELETE FROM public.users
+  WHERE email = NEW.email AND id != NEW.id;
+
   INSERT INTO public.users (id, email, name, created_at, onboarding_completed, has_seen_welcome, has_seen_privacy)
   VALUES (
     NEW.id,
     NEW.email,
-    COALESCE(NEW.raw_user_meta_data->>'name', NEW.email),
+    COALESCE(NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
     NOW(),
     false,
     false,
@@ -137,12 +141,11 @@ BEGIN
   )
   ON CONFLICT (id) DO UPDATE SET
     email = EXCLUDED.email,
-    name = COALESCE(EXCLUDED.name, users.name),
-    updated_at = NOW();
-  
+    name = COALESCE(EXCLUDED.name, users.name);
+
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- Grant necessary permissions for the function
 GRANT USAGE ON SCHEMA public TO service_role;

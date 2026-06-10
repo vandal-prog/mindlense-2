@@ -512,12 +512,12 @@ export default function Chat() {
             <span>
               Created by{' '}
               <a 
-                href="https://www.onchify.com/" 
+                href="https://joscode.surge.sh" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-indigo-600 hover:text-indigo-800 transition-colors"
               >
-                Onchify
+                Joscode
               </a>
             </span>
           </div>

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { supabase } from '../lib/supabase';
-import { generateChatResponse, generateInitialMessage, generateMoodInsights } from '../lib/gemini';
+import { generateChatResponse, generateInitialMessage, generateMoodInsights } from '../lib/openai';
 import type { Database } from '../lib/database.types';
 
 type Message = Database['public']['Tables']['messages']['Row'];

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Sun, Wind, List, Star } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
-import { generateDailyInspiration } from '../lib/gemini';
+import { generateDailyInspiration } from '../lib/openai';
 
 export default function MorningRoutine() {
   const { user } = useAuthStore();

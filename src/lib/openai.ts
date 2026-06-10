@@ -1,20 +1,36 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 import type { Database } from './database.types';
 
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+const openai = new OpenAI({
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+  dangerouslyAllowBrowser: true,
+});
+
+const MODEL = 'gpt-4o-mini';
 
 type MoodCheck = Database['public']['Tables']['mood_checks']['Row'];
 type Message = Database['public']['Tables']['messages']['Row'];
 type User = Database['public']['Tables']['users']['Row'];
 
+async function createCompletion(
+  systemPrompt: string,
+  userPrompt: string
+): Promise<string> {
+  const response = await openai.chat.completions.create({
+    model: MODEL,
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+    temperature: 0.7,
+  });
+
+  return response.choices[0]?.message?.content?.trim() || '';
+}
+
 export async function generateInitialMessage(user: User & { initial_assessment?: any }): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    const assessment = user.initial_assessment;
-    
-    const prompt = `You are an empathetic AI mental health assistant initiating a conversation with a user based on their assessment data.
-
-Assessment data: ${JSON.stringify(assessment)}
+    const systemPrompt = `You are an empathetic AI mental health assistant initiating a conversation with a user based on their assessment data.
 
 Guidelines:
 1. Start with a warm, personalized welcome
@@ -33,11 +49,11 @@ Focus areas:
 
 Remember: Be gentle and encouraging, especially if they indicated low mood or high stress.`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text() || 'How are you feeling right now?';
+    const userPrompt = `Assessment data: ${JSON.stringify(user.initial_assessment)}`;
+
+    return (await createCompletion(systemPrompt, userPrompt)) || 'How are you feeling right now?';
   } catch (error) {
-    console.error('Gemini API error:', error);
+    console.error('OpenAI API error:', error);
     return 'Thank you for sharing your thoughts with me. How are you feeling right now?';
   }
 }
@@ -49,26 +65,16 @@ export async function generateChatResponse(
   initialAssessment: any
 ): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    
-    // Format mood data for context
     const moodContext = recentMoodChecks.map(check => ({
       date: new Date(check.created_at).toISOString(),
       score: check.score,
-      assessment: check.assessment_data
+      assessment: check.assessment_data,
     }));
 
-    // Format chat history
-    const chatHistory = sessionHistory.map(msg => ({
-      role: msg.type === 'user' ? 'user' : 'assistant',
-      content: msg.content
-    }));
-
-    const prompt = `You are an empathetic AI mental health assistant using Socratic dialogue to help users explore their thoughts and feelings.
+    const systemPrompt = `You are an empathetic AI mental health assistant using Socratic dialogue to help users explore their thoughts and feelings.
 
 Initial Assessment: ${JSON.stringify(initialAssessment)}
 Recent mood data: ${JSON.stringify(moodContext)}
-Chat History: ${JSON.stringify(chatHistory)}
 
 Socratic Dialogue Guidelines:
 1. Ask one question at a time
@@ -94,15 +100,26 @@ Key Principles:
 Crisis Keywords: suicide, self-harm, kill, die, end it all
 If these appear, immediately provide crisis resources and encourage professional help.
 
-Current user message: ${message}
-
 Remember: Your role is to help users explore their own thoughts and feelings, not to provide solutions or advice.`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text() || 'I apologize, but I am unable to provide a response at the moment.';
+    const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+      { role: 'system', content: systemPrompt },
+      ...sessionHistory.map(msg => ({
+        role: msg.type === 'user' ? 'user' as const : 'assistant' as const,
+        content: msg.content,
+      })),
+      { role: 'user', content: message },
+    ];
+
+    const response = await openai.chat.completions.create({
+      model: MODEL,
+      messages,
+      temperature: 0.7,
+    });
+
+    return response.choices[0]?.message?.content?.trim() || 'I apologize, but I am unable to provide a response at the moment.';
   } catch (error) {
-    console.error('Gemini API error:', error);
+    console.error('OpenAI API error:', error);
     return 'I apologize, but I am unable to provide a response at the moment. Please try again later.';
   }
 }
@@ -111,15 +128,13 @@ export async function generateMoodInsights(moodChecks: MoodCheck[]): Promise<str
   if (moodChecks.length === 0) return '';
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    
     const moodData = moodChecks.map(check => ({
       date: new Date(check.created_at).toISOString(),
       score: check.score,
-      assessment: check.assessment_data
+      assessment: check.assessment_data,
     }));
 
-    const prompt = `Analyze the mood and assessment data and provide insights in plain text format.
+    const systemPrompt = `Analyze the mood and assessment data and provide insights in plain text format.
 
 Guidelines:
 - Use simple headings without any special characters
@@ -149,24 +164,20 @@ Recommendations
 2. Second actionable step
 3. Additional steps as needed
 
-Keep the response concise and actionable, using only plain text.
+Keep the response concise and actionable, using only plain text.`;
 
-Mood data: ${JSON.stringify(moodData)}`;
+    const userPrompt = `Mood data: ${JSON.stringify(moodData)}`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text() || 'Unable to generate insights at this time.';
+    return (await createCompletion(systemPrompt, userPrompt)) || 'Unable to generate insights at this time.';
   } catch (error) {
-    console.error('Gemini API error:', error);
+    console.error('OpenAI API error:', error);
     return 'Unable to generate insights at this time. Please try again later.';
   }
 }
 
 export async function generateDailyInspiration(): Promise<string> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-    
-    const prompt = `Generate a short, inspiring message for someone starting their day. Include:
+    const systemPrompt = `Generate a short, inspiring message for someone starting their day. Include:
 - A brief, relatable metaphor about personal growth
 - A gentle question for self-reflection
 - A simple encouragement
@@ -174,11 +185,9 @@ export async function generateDailyInspiration(): Promise<string> {
 Keep it concise (2-3 sentences) and uplifting.
 Focus on mindfulness and present-moment awareness.`;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text() || 'Start your day with intention and purpose.';
+    return (await createCompletion(systemPrompt, 'Generate today\'s inspiration.')) || 'Start your day with intention and purpose.';
   } catch (error) {
-    console.error('Gemini API error:', error);
+    console.error('OpenAI API error:', error);
     return 'Every new day brings fresh opportunities for growth and positive change.';
   }
 }
