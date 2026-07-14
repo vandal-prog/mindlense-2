@@ -83,6 +83,7 @@ function App() {
             path="/terms"
             element={user ? <Terms /> : <Navigate to="/auth" replace />}
           />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </React.Suspense>
     </Router>
