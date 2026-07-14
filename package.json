@@ -1,13 +1,15 @@
 {
-  "name": "mindlens-mvp",
+  "name": "soleful-mvp",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "cp dist/index.html dist/200.html",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && npx surge dist soleful.surge.sh"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.7",

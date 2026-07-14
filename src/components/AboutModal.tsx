@@ -55,7 +55,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600" />
               </div>
               <div>
-                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">About MindLense</h2>
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">About Soleful</h2>
                 <p className="text-sm sm:text-base text-gray-600">Your Personal Mental Wellness Companion</p>
               </div>
             </div>
@@ -76,7 +76,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
               Welcome to Your Safe Space for Mental Wellness
             </h3>
             <p className="text-gray-600 leading-relaxed max-w-3xl mx-auto">
-              MindLense is a comprehensive mental health support platform designed to provide personalized, 
+              Soleful is a comprehensive mental health support platform designed to provide personalized, 
               accessible, and effective tools for your mental wellness journey. Whether you're looking to 
               track your mood, have meaningful conversations, or access crisis support, we're here to help 
               you navigate your mental health with compassion and understanding.
@@ -86,7 +86,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
           {/* Features Grid */}
           <div>
             <h3 className="text-xl font-semibold text-gray-900 mb-6 text-center">
-              What Makes MindLense Special
+              What Makes Soleful Special
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {features.map((feature, index) => (
@@ -112,7 +112,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
           {/* How It Works */}
           <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6">
             <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">
-              How MindLense Works
+              How Soleful Works
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">

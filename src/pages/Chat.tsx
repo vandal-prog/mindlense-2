@@ -351,7 +351,7 @@ export default function Chat() {
             <button 
               onClick={() => setShowAboutModal(true)}
               className="text-gray-600 hover:text-gray-900 transition-colors"
-              title="About MindLense"
+              title="About Soleful"
             >
               <Info className="h-5 w-5" />
             </button>
@@ -397,7 +397,7 @@ export default function Chat() {
                     <div className="h-full flex flex-col items-center justify-center text-center text-gray-500">
                       <Brain className="h-12 w-12 text-indigo-600 mb-4" />
                       <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                        Welcome to MindLense Chat
+                        Welcome to Soleful Chat
                       </h3>
                       <p className="max-w-sm text-gray-600">
                         Share your thoughts and feelings in a safe, supportive space.
@@ -507,7 +507,7 @@ export default function Chat() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
             <Brain className="h-4 w-4" />
-            <span>© 2025 MindLense. All rights reserved.</span>
+            <span>© 2025 Soleful. All rights reserved.</span>
             <span className="text-gray-400">•</span>
             <span>
               Created by{' '}

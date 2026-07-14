@@ -30,7 +30,7 @@ const ASSESSMENT_QUESTIONS: Question[] = [
   },
   {
     id: 'main_goal',
-    text: "What's your primary goal for using MindLense?",
+    text: "What's your primary goal for using Soleful?",
     type: "choice",
     choices: [
       "Manage anxiety and stress",
@@ -157,7 +157,7 @@ export default function InitialAssessment() {
           <div className="inline-block p-3 bg-white rounded-2xl shadow-md mb-4">
             <Brain className="h-12 w-12 text-indigo-600" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome to MindLense</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome to Soleful</h1>
           <p className="text-xl text-gray-600">
             Let's personalize your mental wellness journey
           </p>

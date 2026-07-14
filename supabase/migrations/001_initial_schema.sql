@@ -1,6 +1,6 @@
 /*
-  # Complete MindLense Database Setup
-  This migration sets up the complete database schema for MindLense
+  # Complete Soleful Database Setup
+  This migration sets up the complete database schema for Soleful
 */
 
 -- Enable necessary extensions

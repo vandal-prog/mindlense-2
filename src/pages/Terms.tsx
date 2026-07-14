@@ -29,14 +29,14 @@ export default function Terms() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Agreement to Terms</h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                By using MindLense, you agree to these Terms and Conditions. If you do not agree, please discontinue use immediately.
+                By using Soleful, you agree to these Terms and Conditions. If you do not agree, please discontinue use immediately.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">2. Privacy Policy</h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Your use of MindLense is also governed by our Privacy Policy. Please review our Privacy Policy, which also governs the Site and informs users of our data collection practices.
+                Your use of Soleful is also governed by our Privacy Policy. Please review our Privacy Policy, which also governs the Site and informs users of our data collection practices.
               </p>
             </section>
 
@@ -50,14 +50,14 @@ export default function Terms() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">4. Service Description</h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                MindLense provides mental wellness support through AI-powered conversations and mood tracking. While we strive to provide helpful support, our service is not a substitute for professional medical advice, diagnosis, or treatment.
+                Soleful provides mental wellness support through AI-powered conversations and mood tracking. While we strive to provide helpful support, our service is not a substitute for professional medical advice, diagnosis, or treatment.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">5. Limitations</h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                MindLense is not intended to provide medical or professional mental health services. In case of emergency, please contact appropriate emergency services or mental health crisis hotlines.
+                Soleful is not intended to provide medical or professional mental health services. In case of emergency, please contact appropriate emergency services or mental health crisis hotlines.
               </p>
             </section>
 
@@ -65,8 +65,8 @@ export default function Terms() {
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">6. Contact Information</h2>
               <p className="text-gray-600 leading-relaxed">
                 For any questions about these Terms, please contact us at{' '}
-                <a href="mailto:support@mindlense.com" className="text-indigo-600 hover:text-indigo-700">
-                  support@mindlense.com
+                <a href="mailto:support@soleful.com" className="text-indigo-600 hover:text-indigo-700">
+                  support@soleful.com
                 </a>
               </p>
             </section>

@@ -29,7 +29,7 @@ export default function Privacy() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Introduction</h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                MindLense is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile and web application.
+                Soleful is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile and web application.
               </p>
             </section>
 
@@ -91,8 +91,8 @@ export default function Privacy() {
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Contact Us</h2>
               <p className="text-gray-600 leading-relaxed">
                 For any privacy-related concerns, please contact us at{' '}
-                <a href="mailto:support@mindlense.com" className="text-indigo-600 hover:text-indigo-700">
-                  support@mindlense.com
+                <a href="mailto:support@soleful.com" className="text-indigo-600 hover:text-indigo-700">
+                  support@soleful.com
                 </a>
               </p>
             </section>

@@ -1,4 +1,4 @@
-# 🧠 MindLense - AI-Powered Mental Wellness Platform
+# 🧠 Soleful - AI-Powered Mental Wellness Platform
 
 [![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org)
@@ -51,8 +51,8 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/mindlense.git
-   cd mindlense
+   git clone https://github.com/yourusername/soleful.git
+   cd soleful
    ```
 
 2. **Install dependencies**
@@ -104,7 +104,7 @@
 
 ## 📱 Mobile Optimization
 
-MindLense is fully responsive and optimized for all devices:
+Soleful is fully responsive and optimized for all devices:
 
 - **Mobile-First Design**: Optimized for smartphones and tablets
 - **Touch-Friendly Interface**: Large touch targets and intuitive gestures
@@ -183,7 +183,7 @@ MindLense is fully responsive and optimized for all devices:
 
 ## 🤝 Contributing
 
-We welcome contributions to MindLense! Here's how you can help:
+We welcome contributions to Soleful! Here's how you can help:
 
 ### Development Setup
 1. Fork the repository
@@ -220,7 +220,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Documentation**: Check our comprehensive guides
 - **Issues**: Report bugs and request features on GitHub
 - **Community**: Join our Discord community
-- **Email**: support@mindlense.com
+- **Email**: support@soleful.com
 
 ### Crisis Support
 If you're in crisis, please reach out to professional help:

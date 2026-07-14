@@ -25,7 +25,7 @@ function App() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <Brain className="w-12 h-12 mx-auto mb-4 text-indigo-600 animate-pulse" />
-          <h2 className="text-xl font-semibold text-gray-700">Loading MindLens...</h2>
+          <h2 className="text-xl font-semibold text-gray-700">Loading Soleful...</h2>
         </div>
       </div>
     );
