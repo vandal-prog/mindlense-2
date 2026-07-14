@@ -179,21 +179,6 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
             </button>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="border-t border-gray-200 px-6 py-4 bg-gray-50 rounded-b-2xl">
-          <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
-            <span>Created by</span>
-            <a 
-              href="https://joscode.surge.sh" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-indigo-600 hover:text-indigo-800 transition-colors font-medium"
-            >
-              Joscode
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );
