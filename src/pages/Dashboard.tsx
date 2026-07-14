@@ -583,7 +583,7 @@ export default function Dashboard() {
                 <Brain className="h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="text-xs sm:text-sm">© 2025 Soleful. All rights reserved.</span>
               </div>
-              <span className="hidden sm:inline text-sm text-gray-400">•</span>
+              {/* <span className="hidden sm:inline text-sm text-gray-400">•</span>
               <span className="text-xs sm:text-sm">
                 Created by{' '}
                 <a 
@@ -594,7 +594,7 @@ export default function Dashboard() {
                 >
                   Joscode
                 </a>
-              </span>
+              </span> */}
             </div>
             
             {/* Links */}

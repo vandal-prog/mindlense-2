@@ -508,7 +508,7 @@ export default function Chat() {
           <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
             <Brain className="h-4 w-4" />
             <span>© 2025 Soleful. All rights reserved.</span>
-            <span className="text-gray-400">•</span>
+            {/* <span className="text-gray-400">•</span>
             <span>
               Created by{' '}
               <a 
@@ -519,7 +519,7 @@ export default function Chat() {
               >
                 Joscode
               </a>
-            </span>
+            </span> */}
           </div>
         </div>
       </footer>
